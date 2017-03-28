@@ -6,7 +6,7 @@
 
 // })()
 
-import template from "./welcome.html";
+import  "./welcome";
 
 class CTWidget {
     constructor(message: string){

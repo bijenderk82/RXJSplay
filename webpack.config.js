@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./welcome",
+  entry: "./main",
   output: {
     filename: "build/app.js"
   },
@@ -18,5 +18,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".js", ".html"]
-  }
+  },
+   devtool: "#inline-source-map"
 }

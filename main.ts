@@ -1,42 +1,28 @@
 import { Observable, Observer } from "rxjs";
 
-let numbers = [1,3,5];
-//let source = Observable.from(numbers);
+let output = document.getElementById("output");
+let button = document.getElementById("button");
+let click = Observable.fromEvent(button, "click")
 
-let source = Observable.create(observer => {
 
-    let index = 0;
-    let produceValue = () => {
-        observer.next(numbers[index++]);
-    
+function load(url: string) {
+    let xhr = new XMLHttpRequest();
 
-    if(index < numbers.length) {
-        setTimeout(produceValue, 200)
-    } else {
-        observer.complete();
-    }
-    }
-    produceValue();
-}).map(n => n*3)
-.filter(n => n>4 )
+    xhr.addEventListener('load', function() {
+        let movies = JSON.parse(xhr.responseText);
+        movies.forEach(m => {
+            let div = document.createElement('div');
+            div.innerText = m.title;
+            output.appendChild(div);
+        });
+    })
 
-// class Myobserver implements Observer<number> {
-//     next(value) {
-//         console.log(`value: ${value}`);
-//     }
+    xhr.open('GET', url);
+    xhr.send();
+}
 
-//     error(e) {
-//         console.log(`error: ${e}`);
-//     }
-
-//     complete() {
-//         console.log('complete');
-//     }
-// }
-
-//source.subscribe(new Myobserver);
-source.subscribe(
-    value => console.log(`value: ${value}`),
+click.subscribe(
+    e => load('movies.json'),
     e => console.log(e),
     () => console.log('complete')
 )
